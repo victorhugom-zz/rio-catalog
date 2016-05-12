@@ -26,7 +26,7 @@ app.use(methodOverride());
 // Set up mongo connection
 mongoose.connect(process.env.MONGO_URI || MONGO_URI);
 
-const port = process.env.PORT || 5005;
+const port = process.env.PORT || 3000;
 restify.serve(router, Product);
 
 app.use(router);
