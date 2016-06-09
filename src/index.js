@@ -4,7 +4,7 @@ import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import restify from 'express-restify-mongoose';
 
-import Product from './models/Product';
+import Product from './models/product';
 import {MONGO_URI} from './config';
 
 const app = express();
