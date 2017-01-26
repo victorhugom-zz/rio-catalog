@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
+import diffHistory from 'mongoose-diff-history/diffHistory';
+import uuid from 'uuid';
+
 let ObjectId = mongoose.Schema.Types.ObjectId;
 
 const ProductSchema = new mongoose.Schema({
-  productGroupId: String,
+  productGroupId: {
+    type: String,
+    default: uuid.v1
+  },
   name: String,
   description: String,
   shortDescription: String,
@@ -10,24 +16,35 @@ const ProductSchema = new mongoose.Schema({
   price: Number,
   brand: String,
   categories: [String],
-  
+
+  stock: {
+    type: Number,
+    default: 0,
+  },
+
   reference: String,
   sku: String,
   ean: String,
   ncm: String,
   isbn: String,
-    
+
   height: Number,
-  length: Number,
   width: Number,
+  length: Number,
   weight: Number,
   volume: Number,
-  color: String,
-  
-  images: [String],
+  color: {
+    "id": String,
+    "name": String,
+    "hex": String,
+    "imageUrl": String
+  },
+  size: String,
+
+  images: [mongoose.Schema.Types.Mixed],
+  videos: [mongoose.Schema.Types.Mixed],
   thumbnailUri: String,
-  videos: [String],
-  
+
   otherCharacteristics: mongoose.Schema.Types.Mixed,
   available: Boolean,
   composition: [{
@@ -47,6 +64,20 @@ const ProductSchema = new mongoose.Schema({
     default: Date.now()
   },
 });
+
+
+// Create db index
+ProductSchema.index({
+  "name": "text",
+  "description": "text",
+  "price": "text",
+  "brand": "text",
+  "categories": "text",
+  "sku": "text",
+  "color.name": 1,
+});
+
+ProductSchema.plugin(diffHistory.plugin);
 
 const Product = mongoose.model('Product', ProductSchema);
 
