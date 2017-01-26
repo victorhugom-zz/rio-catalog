@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import Product from './models/product';
 import {
-  MONGO_URI, AUTH_SERVICE_URI, PORT
+  MONGO_URI, AUTH_SERVICE_URI, PORT, NO_AUTH
 } from './config';
 
 const app = express();
@@ -27,6 +27,11 @@ function allowCrossDomain(req, res, next) {
 //AUTH middleware
 let validTokens = {};
 function auth(req, res, next) {
+
+  if (NO_AUTH) {
+    next();
+    return;
+  }
 
   if (!req.headers.authorization) {
     res.status(401).send('missing authorization header');
