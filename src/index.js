@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import Product from './models/product';
 import {
-  MONGO_URI, AUTH_SERVICE_URI
+  MONGO_URI, AUTH_SERVICE_URI, PORT
 } from './config';
 
 const app = express();
@@ -69,8 +69,6 @@ var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.info('Connected'));
-
-const port = process.env.PORT || 3000;
 
 app.get('/api/v1/product/grouped', auth, function (req, res, next) {
 
@@ -148,6 +146,6 @@ restify.serve(router, Product, {
 
 app.use(router);
 
-app.listen(port, () => {
-  console.info(`Listening on port ${port}`);
+app.listen(PORT, () => {
+  console.info(`Listening on port ${PORT}`);
 });
