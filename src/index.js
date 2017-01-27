@@ -58,7 +58,7 @@ function auth(req, res, next) {
       validTokens[token] = new Date();
       next();
     } else {
-      console.info('not authorized');
+      console.info(`not authorized: ${token}`);
       res.status(401).send('not authorized');
     }
   });
